@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOS命令大全</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft Yahei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: #764ba2;
+            transform: translateX(-5px);
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #667eea;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .tab-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .command-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+            transition: all 0.3s;
+        }
+
+        .command-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .command-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .command-desc {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .command-syntax {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 10px;
+            overflow-x: auto;
+        }
+
+        .command-example {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 2px solid #f093fb;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 18px;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← 返回主页</a>
+
+    <div class="container">
+        <div class="header">
+            <h1>DOS命令大全</h1>
+            <p>完整的DOS命令教程和参考手册</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索命令（输入命令名称）...">
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="filterCategory('all')">全部</button>
+            <button class="tab-btn" onclick="filterCategory('basic')">基础命令</button>
+            <button class="tab-btn" onclick="filterCategory('file')">文件操作</button>
+            <button class="tab-btn" onclick="filterCategory('network')">网络命令</button>
+            <button class="tab-btn" onclick="filterCategory('system')">系统命令</button>
+            <button class="tab-btn" onclick="filterCategory('advanced')">高级命令</button>
+        </div>
+
+        <div id="commandsContainer" class="commands-grid"></div>
+    </div>
+
+    <script src="script.js" defer></script>
+    <script>
+        // 检查登录状态
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn !== 'true') {
+                alert('请先登录！');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // 添加用户信息和登出按钮
+            const userName = localStorage.getItem('userName') || '用户';
+            const header = document.querySelector('.header');
+            const userInfo = document.createElement('div');
+            userInfo.style.cssText = 'position: absolute; top: 20px; right: 20px; color: #667eea; font-weight: 600;';
+            userInfo.innerHTML = `
+                欢迎, ${userName} 
+                <button onclick="logout()" style="margin-left: 15px; padding: 6px 15px; background: #667eea; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">登出</button>
+            `;
+            document.body.style.position = 'relative';
+            document.body.insertBefore(userInfo, document.body.firstChild);
+        });
+        // DOS命令数据库
+        const dosCommands = [
+            // 基础命令
+            {
+                name: 'dir',
+                category: 'basic',
+                desc: '显示目录中的文件和子目录列表',
+                syntax: 'dir [path] [/s] [/p] [/w]',
+                example: 'dir c:\\ /s'
+            },
+            {
+                name: 'cd',
+                category: 'basic',
+                desc: '改变当前目录',
+                syntax: 'cd [path]',
+                example: 'cd C:\\Users\\Documents'
+            },
+            {
+                name: 'cls',
+                category: 'basic',
+                desc: '清除屏幕',
+                syntax: 'cls',
+                example: 'cls'
+            },
+            {
+                name: 'echo',
+                category: 'basic',
+                desc: '显示文本或打开/关闭命令回显',
+                syntax: 'echo [text]',
+                example: 'echo Hello World'
+            },
+            {
+                name: 'type',
+                category: 'basic',
+                desc: '显示文本文件的内容',
+                syntax: 'type [filename]',
+                example: 'type readme.txt'
+            },
+            {
+                name: 'help',
+                category: 'basic',
+                desc: '显示命令帮助信息',
+                syntax: 'help [command]',
+                example: 'help dir'
+            },
+            // 文件操作
+            {
+                name: 'copy',
+                category: 'file',
+                desc: '复制文件',
+                syntax: 'copy [source] [destination]',
+                example: 'copy file.txt c:\\backup\\'
+            },
+            {
+                name: 'del',
+                category: 'file',
+                desc: '删除文件',
+                syntax: 'del [filename] [/p] [/f] [/s] [/q]',
+                example: 'del /s /q *.tmp'
+            },
+            {
+                name: 'move',
+                category: 'file',
+                desc: '移动或重命名文件',
+                syntax: 'move [source] [destination]',
+                example: 'move old.txt new.txt'
+            },
+            {
+                name: 'rename',
+                category: 'file',
+                desc: '重命名文件',
+                syntax: 'rename [oldname] [newname]',
+                example: 'rename file.old file.new'
+            },
+            {
+                name: 'mkdir',
+                category: 'file',
+                desc: '创建目录',
+                syntax: 'mkdir [dirname]',
+                example: 'mkdir NewFolder'
+            },
+            {
+                name: 'rmdir',
+                category: 'file',
+                desc: '删除目录',
+                syntax: 'rmdir [dirname] [/s] [/q]',
+                example: 'rmdir /s /q EmptyFolder'
+            },
+            {
+                name: 'attrib',
+                category: 'file',
+                desc: '显示或更改文件属性',
+                syntax: 'attrib [+r|-r] [filename]',
+                example: 'attrib +h file.txt'
+            },
+            // 网络命令
+            {
+                name: 'ping',
+                category: 'network',
+                desc: '测试网络连接',
+                syntax: 'ping [hostname/IP] [-t] [-n count]',
+                example: 'ping 8.8.8.8'
+            },
+            {
+                name: 'ipconfig',
+                category: 'network',
+                desc: '显示IP配置信息',
+                syntax: 'ipconfig [/all] [/release] [/renew]',
+                example: 'ipconfig /all'
+            },
+            {
+                name: 'netstat',
+                category: 'network',
+                desc: '显示网络连接和监听端口',
+                syntax: 'netstat [-a] [-n] [-o]',
+                example: 'netstat -ano'
+            },
+            {
+                name: 'nslookup',
+                category: 'network',
+                desc: 'DNS查询工具',
+                syntax: 'nslookup [domain] [DNS_server]',
+                example: 'nslookup google.com'
+            },
+            {
+                name: 'tracert',
+                category: 'network',
+                desc: '跟踪路由',
+                syntax: 'tracert [hostname/IP]',
+                example: 'tracert google.com'
+            },
+            // 系统命令
+            {
+                name: 'tasklist',
+                category: 'system',
+                desc: '显示所有正在运行的进程',
+                syntax: 'tasklist [/v] [/m]',
+                example: 'tasklist /v'
+            },
+            {
+                name: 'taskkill',
+                category: 'system',
+                desc: '终止一个或多个进程',
+                syntax: 'taskkill /pid [PID] /f',
+                example: 'taskkill /pid 1234 /f'
+            },
+            {
+                name: 'systeminfo',
+                category: 'system',
+                desc: '显示计算机的详细配置信息',
+                syntax: 'systeminfo',
+                example: 'systeminfo'
+            },
+            {
+                name: 'set',
+                category: 'system',
+                desc: '显示或设置环境变量',
+                syntax: 'set [variable=value]',
+                example: 'set PATH'
+            },
+            // 高级命令
+            {
+                name: 'findstr',
+                category: 'advanced',
+                desc: '在文件中搜索字符串',
+                syntax: 'findstr [/s] [/i] [string] [filename]',
+                example: 'findstr /s "error" *.log'
+            },
+            {
+                name: 'for',
+                category: 'advanced',
+                desc: '循环执行命令',
+                syntax: 'for %var in (set) do command',
+                example: 'for %i in (*.txt) do echo %i'
+            },
+            {
+                name: 'if',
+                category: 'advanced',
+                desc: '条件执行命令',
+                syntax: 'if [condition] (command)',
+                example: 'if exist file.txt echo File found'
+            },
+            {
+                name: 'start',
+                category: 'advanced',
+                desc: '启动新窗口运行程序',
+                syntax: 'start [/w] [program]',
+                example: 'start notepad.exe'
+            },
+            {
+                name: 'fc',
+                category: 'advanced',
+                desc: '比较两个文件的内容',
+                syntax: 'fc [file1] [file2]',
+                example: 'fc file1.txt file2.txt'
+            }
+        ];
+
+        let currentCategory = 'all';
+
+        function renderCommands(commands = dosCommands) {
+            const container = document.getElementById('commandsContainer');
+            const filtered = currentCategory === 'all' 
+                ? commands 
+                : commands.filter(cmd => cmd.category === currentCategory);
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-results">没有找到匹配的命令</div>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(cmd => `
+                <div class="command-card">
+                    <div class="command-name">${cmd.name}</div>
+                    <div class="command-desc">${cmd.desc}</div>
+                    <div><strong style="color: #667eea;">语法：</strong></div>
+                    <div class="command-syntax">${cmd.syntax}</div>
+                    <div><strong style="color: #667eea;">示例：</strong></div>
+                    <div class="command-example">${cmd.example}</div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderCommands();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = dosCommands.filter(cmd => 
+                cmd.name.toLowerCase().includes(searchTerm) ||
+                cmd.desc.toLowerCase().includes(searchTerm)
+            );
+            renderCommands(filtered);
+        });
+
+        // 初始化
+        renderCommands();
+    </script>
+</body>
+</html>

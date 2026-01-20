@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POWERSHELL命令大全</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'PingFang SC', 'Microsoft Yahei', sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            color: #00a8e8;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background: #00a8e8;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: #0081a7;
+            transform: translateX(-5px);
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            border-color: #00a8e8;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: 2px solid #ddd;
+            background: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: #00a8e8;
+            color: white;
+            border-color: #00a8e8;
+        }
+
+        .tab-btn:hover {
+            border-color: #00a8e8;
+            color: #00a8e8;
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .command-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-left: 4px solid #00a8e8;
+            transition: all 0.3s;
+        }
+
+        .command-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .command-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00a8e8;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .command-desc {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .command-syntax {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #333;
+            margin-bottom: 10px;
+            overflow-x: auto;
+        }
+
+        .command-example {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 2px solid #00a8e8;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-size: 18px;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← 返回主页</a>
+
+    <div class="container">
+        <div class="header">
+            <h1>POWERSHELL命令大全</h1>
+            <p>完整的PowerShell命令教程和参考手册</p>
+        </div>
+
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索命令（输入命令名称）...">
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="filterCategory('all')">全部</button>
+            <button class="tab-btn" onclick="filterCategory('basic')">基础命令</button>
+            <button class="tab-btn" onclick="filterCategory('file')">文件操作</button>
+            <button class="tab-btn" onclick="filterCategory('process')">进程管理</button>
+            <button class="tab-btn" onclick="filterCategory('network')">网络命令</button>
+            <button class="tab-btn" onclick="filterCategory('system')">系统命令</button>
+            <button class="tab-btn" onclick="filterCategory('advanced')">高级命令</button>
+        </div>
+
+        <div id="commandsContainer" class="commands-grid"></div>
+    </div>
+
+    <script src="script.js" defer></script>
+    <script>
+        // 检查登录状态
+        document.addEventListener('DOMContentLoaded', function() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn !== 'true') {
+                alert('请先登录！');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // 添加用户信息和登出按钮
+            const userName = localStorage.getItem('userName') || '用户';
+            const userInfo = document.createElement('div');
+            userInfo.style.cssText = 'position: fixed; top: 20px; right: 20px; color: #00a8e8; font-weight: 600; background: white; padding: 10px 15px; border-radius: 5px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000;';
+            userInfo.innerHTML = `
+                欢迎, ${userName} 
+                <button onclick="logout()" style="margin-left: 15px; padding: 6px 15px; background: #00a8e8; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">登出</button>
+            `;
+            document.body.insertBefore(userInfo, document.body.firstChild);
+        });
+        // PowerShell命令数据库
+        const powershellCommands = [
+            // 基础命令
+            {
+                name: 'Get-Help',
+                category: 'basic',
+                desc: '获取PowerShell命令的帮助信息',
+                syntax: 'Get-Help [command] [-Full]',
+                example: 'Get-Help Get-ChildItem -Full'
+            },
+            {
+                name: 'Get-Command',
+                category: 'basic',
+                desc: '显示所有可用命令',
+                syntax: 'Get-Command [[-Name] pattern]',
+                example: 'Get-Command Get-*'
+            },
+            {
+                name: 'Write-Host',
+                category: 'basic',
+                desc: '输出信息到主机',
+                syntax: 'Write-Host [-Object] value',
+                example: 'Write-Host "Hello World" -ForegroundColor Green'
+            },
+            {
+                name: 'Read-Host',
+                category: 'basic',
+                desc: '从主机读取输入',
+                syntax: 'Read-Host [-Prompt] message',
+                example: 'Read-Host "Enter your name"'
+            },
+            {
+                name: 'Clear-Host',
+                category: 'basic',
+                desc: '清除屏幕',
+                syntax: 'Clear-Host',
+                example: 'Clear-Host'
+            },
+            {
+                name: 'Set-Location',
+                category: 'basic',
+                desc: '改变当前目录',
+                syntax: 'Set-Location [-Path] path',
+                example: 'Set-Location C:\\Users\\Documents'
+            },
+            {
+                name: 'Get-Location',
+                category: 'basic',
+                desc: '获取当前目录',
+                syntax: 'Get-Location',
+                example: 'Get-Location'
+            },
+            // 文件操作
+            {
+                name: 'Get-ChildItem',
+                category: 'file',
+                desc: '列出目录中的项目',
+                syntax: 'Get-ChildItem [-Path] path [-Recurse]',
+                example: 'Get-ChildItem C:\\ -Recurse'
+            },
+            {
+                name: 'Copy-Item',
+                category: 'file',
+                desc: '复制文件或目录',
+                syntax: 'Copy-Item [-Path] source [-Destination] dest',
+                example: 'Copy-Item C:\\file.txt C:\\backup\\'
+            },
+            {
+                name: 'Move-Item',
+                category: 'file',
+                desc: '移动或重命名文件',
+                syntax: 'Move-Item [-Path] source [-Destination] dest',
+                example: 'Move-Item old.txt new.txt'
+            },
+            {
+                name: 'Remove-Item',
+                category: 'file',
+                desc: '删除文件或目录',
+                syntax: 'Remove-Item [-Path] path [-Force] [-Recurse]',
+                example: 'Remove-Item C:\\temp -Recurse -Force'
+            },
+            {
+                name: 'New-Item',
+                category: 'file',
+                desc: '创建新项目',
+                syntax: 'New-Item -Path path -ItemType type',
+                example: 'New-Item -Path . -Name "folder" -ItemType Directory'
+            },
+            {
+                name: 'Get-Content',
+                category: 'file',
+                desc: '获取文件内容',
+                syntax: 'Get-Content [-Path] path',
+                example: 'Get-Content C:\\file.txt'
+            },
+            {
+                name: 'Set-Content',
+                category: 'file',
+                desc: '设置文件内容',
+                syntax: 'Set-Content [-Path] path [-Value] value',
+                example: 'Set-Content C:\\file.txt "New content"'
+            },
+            // 进程管理
+            {
+                name: 'Get-Process',
+                category: 'process',
+                desc: '获取正在运行的进程',
+                syntax: 'Get-Process [[Name] name]',
+                example: 'Get-Process'
+            },
+            {
+                name: 'Start-Process',
+                category: 'process',
+                desc: '启动新的进程',
+                syntax: 'Start-Process [-FilePath] path',
+                example: 'Start-Process notepad.exe'
+            },
+            {
+                name: 'Stop-Process',
+                category: 'process',
+                desc: '停止运行的进程',
+                syntax: 'Stop-Process [-Id] id [-Force]',
+                example: 'Stop-Process -Id 1234 -Force'
+            },
+            {
+                name: 'Wait-Process',
+                category: 'process',
+                desc: '等待进程停止',
+                syntax: 'Wait-Process [-Id] id',
+                example: 'Wait-Process -Id 1234'
+            },
+            {
+                name: 'Get-Service',
+                category: 'process',
+                desc: '获取服务状态',
+                syntax: 'Get-Service [[Name] name]',
+                example: 'Get-Service'
+            },
+            // 网络命令
+            {
+                name: 'Test-Connection',
+                category: 'network',
+                desc: '测试网络连接',
+                syntax: 'Test-Connection [-ComputerName] host',
+                example: 'Test-Connection 8.8.8.8'
+            },
+            {
+                name: 'Get-NetIPAddress',
+                category: 'network',
+                desc: '获取IP地址信息',
+                syntax: 'Get-NetIPAddress [[-IPAddress] address]',
+                example: 'Get-NetIPAddress'
+            },
+            {
+                name: 'Get-NetAdapter',
+                category: 'network',
+                desc: '获取网络适配器信息',
+                syntax: 'Get-NetAdapter [[-Name] name]',
+                example: 'Get-NetAdapter'
+            },
+            {
+                name: 'Get-NetTCPConnection',
+                category: 'network',
+                desc: '获取TCP连接信息',
+                syntax: 'Get-NetTCPConnection [[-State] state]',
+                example: 'Get-NetTCPConnection -State Listen'
+            },
+            {
+                name: 'Invoke-WebRequest',
+                category: 'network',
+                desc: '向Web服务器发送HTTP请求',
+                syntax: 'Invoke-WebRequest [-Uri] uri',
+                example: 'Invoke-WebRequest https://www.google.com'
+            },
+            // 系统命令
+            {
+                name: 'Get-ComputerInfo',
+                category: 'system',
+                desc: '获取计算机信息',
+                syntax: 'Get-ComputerInfo',
+                example: 'Get-ComputerInfo'
+            },
+            {
+                name: 'Get-WmiObject',
+                category: 'system',
+                desc: '获取WMI对象',
+                syntax: 'Get-WmiObject [-Class] class',
+                example: 'Get-WmiObject Win32_OperatingSystem'
+            },
+            {
+                name: 'Get-Volume',
+                category: 'system',
+                desc: '获取卷信息',
+                syntax: 'Get-Volume [[-DriveLetter] letter]',
+                example: 'Get-Volume'
+            },
+            {
+                name: 'Get-Disk',
+                category: 'system',
+                desc: '获取磁盘信息',
+                syntax: 'Get-Disk [[-Number] number]',
+                example: 'Get-Disk'
+            },
+            {
+                name: 'Restart-Computer',
+                category: 'system',
+                desc: '重启计算机',
+                syntax: 'Restart-Computer [-Force]',
+                example: 'Restart-Computer -Force'
+            },
+            // 高级命令
+            {
+                name: 'ForEach-Object',
+                category: 'advanced',
+                desc: '对每个输入对象执行脚本块',
+                syntax: 'ForEach-Object -Process {script}',
+                example: 'Get-Process | ForEach-Object {$_.Name}'
+            },
+            {
+                name: 'Where-Object',
+                category: 'advanced',
+                desc: '筛选对象',
+                syntax: 'Where-Object -FilterScript {condition}',
+                example: 'Get-Process | Where-Object {$_.Memory -gt 100MB}'
+            },
+            {
+                name: 'Select-Object',
+                category: 'advanced',
+                desc: '选择对象的属性',
+                syntax: 'Select-Object -Property properties',
+                example: 'Get-Process | Select-Object Name, Id'
+            },
+            {
+                name: 'Group-Object',
+                category: 'advanced',
+                desc: '对对象进行分组',
+                syntax: 'Group-Object [-Property] property',
+                example: 'Get-Process | Group-Object ProcessName'
+            },
+            {
+                name: 'Sort-Object',
+                category: 'advanced',
+                desc: '排序对象',
+                syntax: 'Sort-Object [-Property] property',
+                example: 'Get-Process | Sort-Object Memory -Descending'
+            },
+            {
+                name: 'ConvertTo-Json',
+                category: 'advanced',
+                desc: '将对象转换为JSON格式',
+                syntax: 'ConvertTo-Json [-InputObject] object',
+                example: 'Get-Process | ConvertTo-Json'
+            },
+            {
+                name: 'ConvertFrom-Json',
+                category: 'advanced',
+                desc: '从JSON转换对象',
+                syntax: 'ConvertFrom-Json [-InputObject] json',
+                example: 'Get-Content data.json | ConvertFrom-Json'
+            }
+        ];
+
+        let currentCategory = 'all';
+
+        function renderCommands(commands = powershellCommands) {
+            const container = document.getElementById('commandsContainer');
+            const filtered = currentCategory === 'all' 
+                ? commands 
+                : commands.filter(cmd => cmd.category === currentCategory);
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div class="no-results">没有找到匹配的命令</div>';
+                return;
+            }
+
+            container.innerHTML = filtered.map(cmd => `
+                <div class="command-card">
+                    <div class="command-name">${cmd.name}</div>
+                    <div class="command-desc">${cmd.desc}</div>
+                    <div><strong style="color: #00a8e8;">语法：</strong></div>
+                    <div class="command-syntax">${cmd.syntax}</div>
+                    <div><strong style="color: #00a8e8;">示例：</strong></div>
+                    <div class="command-example">${cmd.example}</div>
+                </div>
+            `).join('');
+        }
+
+        function filterCategory(category) {
+            currentCategory = category;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderCommands();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = powershellCommands.filter(cmd => 
+                cmd.name.toLowerCase().includes(searchTerm) ||
+                cmd.desc.toLowerCase().includes(searchTerm)
+            );
+            renderCommands(filtered);
+        });
+
+        // 初始化
+        renderCommands();
+    </script>
+</body>
+</html>
