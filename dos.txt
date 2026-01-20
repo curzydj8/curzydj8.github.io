@@ -1,0 +1,141 @@
+1. 文档/文本类 (documents)
+
+.doc → Microsoft Word 文档（旧版）
+.docx → Microsoft Word 现代文档
+.rtf → 富文本格式
+.txt → 纯文本文档
+.wps → WPS文字文档
+.wri → Windows Write 文档（旧）
+.html / .htm → HTML 文档
+.xml → XML 文档
+.csv → 逗号分隔值（表格数据）
+.pdf → 便携文档格式
+.log → 日志/文本记录文件
+.ini → 初始化配置文件
+.cfg → 配置文件
+.dic → 词典/文本文档
+
+2. 图像/图形类 (images)
+
+.bmp → BMP 位图
+.gif → GIF 图像/动画
+.jpg / .jpeg → JPEG 图像
+.png → PNG 图像（支持透明）
+.tif / .tiff → TIFF 图像
+.pcx → PCX 图像
+.ico → 图标文件
+.cur → 光标文件
+.ani → 动画光标
+.emf → Windows 增强元文件
+.wmf → Windows 元文件
+.psd → Photoshop 文档
+.ai → Adobe Illustrator 矢量图
+.cdr → CorelDRAW 矢量图
+.dwg → AutoCAD 绘图
+.dxf → AutoCAD 交换格式
+
+3. 音频/视频/多媒体类 (audio_video)
+
+.mp3 → MP3 音频
+.wav → 波形音频
+.wma → Windows Media 音频
+.mid / .midi / .rmi → MIDI 序列
+.aif / .aiff / .aifc → AIFF 音频
+.au → AU 音频
+.mp2 / .mp2v / .mpa / .mpe / .mpeg / .mpg / .mpv2 → MPEG 视频/音频
+.avi → AVI 视频
+.wmv / .wm / .asf → Windows Media 视频/音频
+.mov → QuickTime 视频
+.flv → Flash 视频
+.swf → Shockwave Flash
+.mmm → 媒体剪辑
+.asx / .wax / .wmx / .wvx → Windows Media 快捷方式
+
+4. 压缩/备份/档案类 (compressed)
+
+.zip → ZIP 压缩文件夹
+.rar → RAR 压缩
+.7z → 7-Zip 压缩
+.cab → Microsoft Cabinet 包
+.gz → GZIP 压缩
+.tar → TAR 归档
+.arj → ARJ 压缩
+.lzh → LZH 压缩
+.ace → ACE 压缩
+.bak → 备份文件
+.old → 旧备份
+.wbk → Word 备份
+.xlk → Excel 备份
+
+5. 系统/配置/可执行类 (system)
+
+.exe → 可执行程序
+.com → DOS 命令文件
+.bat → DOS/Windows 批处理
+.cmd → NT系列命令脚本
+.dll → 动态链接库
+.sys → 系统驱动
+.drv → 设备驱动
+.vxd → 虚拟设备驱动（旧）
+.ocx → ActiveX 控件
+.ini → 初始化文件
+.inf → 安装信息
+.reg → 注册表导出
+.pif → DOS程序在Windows快捷（旧）
+.grp → 程序组（Win3.x）
+.fon → 字体文件
+.ttf → TrueType 字体
+.otf → OpenType 字体
+.tmp → 临时文件（可删）
+.log → 日志文件（可删旧版）
+.gid / .fts / .ftg → 帮助索引（可删重建）
+.~*, *.$$$ → 临时/备份残留（可删）
+
+6. 数据库类 (database)
+
+.mdb → Access 数据库（旧）
+.accdb → Access 数据库（现代）
+.dbf → dBase/FoxPro 表
+.sql → SQL 脚本
+.ldb → Access 记录锁定
+.mdw → Access 工作组信息
+
+7. 经典DOS/旧Windows专有类 (classic)
+
+.ovl → 覆盖文件（旧软件分块）
+.hlp → Windows 帮助（旧）
+.chm → 编译HTML帮助
+.wri → Write 文档
+.crd → 卡片文件
+.cal → 日历文件
+.clp → 剪贴板文件
+.rec → 记录器宏
+.pwl → 口令文件
+.par → 交换文件
+.fnd → 保存的搜索结果
+.lnk → 快捷方式
+.url → Internet 快捷方式
+
+8. 其他/证书/网络/代理/多媒体专有类 (other)
+
+.cer / .crt / .der / .p7b / .p7c / .p7m / .p7r / .p7s / .pfx / .p12 → 证书/安全文件
+.323 → H.323 电话技术
+.asa / .asp / .asx → 活动服务器/媒体快捷
+.cat → 安全编录
+.cpl → 控制面板扩展
+.hta → HTML 应用
+.ics → iCalendar
+.msg → Outlook 邮件
+.ost / .pst → Outlook 数据文件
+.vcf → vCard 联系人
+.theme → Windows 主题
+.mht / .mhtml → MHTML 单文件网页
+.eml → Outlook Express 邮件
+.nws → Outlook Express 新闻
+.job → 任务对象
+.msi → Windows Installer 包
+.msp → Installer 修补
+.brx → 多媒体对象目录查看（旧/特定）
+.odg / .odp / .ods / .odt → OpenDocument 系列
+
+这些就是完整分类（共8大类，覆盖你所有提供的条目 + 现代补充）。网页代码已在上一个回复中给出完整HTML结构。
