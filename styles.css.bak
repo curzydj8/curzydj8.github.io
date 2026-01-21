@@ -49,11 +49,3 @@ input:focus{box-shadow:0 0 0 3px rgba(37,99,235,0.08);border-color:var(--accent)
 @media (max-width:420px){
   .login-card{padding:20px;border-radius:10px}
 }
-
-/* Command cards */
-.command-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.card-link{display:block;padding:12px;color:#fff;text-decoration:none;border-radius:8px;font-weight:600;transition:transform .22s,box-shadow .22s}
-.card-link:hover{transform:scale(1.05);box-shadow:0 6px 18px rgba(2,6,23,0.25)}
-.card-dos{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%)}
-.card-linux{background:linear-gradient(135deg,#f093fb 0%,#f5576c 100%)}
-.card-ps{background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)}
