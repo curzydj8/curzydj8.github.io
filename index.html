@@ -1,72 +1,155 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<meta name="description" content="示例应用 — 简洁的登录页面与命令教程集合。">
-	<title>登录 — 示例应用</title>
-	<link rel="preload" href="styles.min.css?v=20260121" as="style">
-	<link rel="stylesheet" href="styles.min.css?v=20260121">
-	<link rel="prefetch" href="dos-commands.html">
-	<link rel="prefetch" href="linux-commands.html">
-	<link rel="prefetch" href="powershell-commands.html">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>火星极客 Mars Geek — 把硬核知识，做成好玩的东西</title>
+<meta name="description" content="火星极客 Mars Geek：编程语言图鉴、Excel 教程、AI 日报、免费节点 Hub、在线麻将游戏、数学全景图。把硬核知识，做成好玩的东西。">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--mars:#ff4d2e;--dark:#0a0a12;--card:#14141f;--text:#e8e8f0;--muted:#8888a0}
+body{background:var(--dark);color:var(--text);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;min-height:100vh}
+#stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+nav{padding:20px 0;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:22px;font-weight:800;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo .dot{width:12px;height:12px;border-radius:50%;background:var(--mars);box-shadow:0 0 12px var(--mars)}
+.navlinks{display:flex;gap:24px}
+.navlinks a{color:var(--muted);text-decoration:none;font-size:14px;transition:.2s}
+.navlinks a:hover{color:var(--text)}
+.hero{text-align:center;padding:80px 0 60px}
+.hero h1{font-size:52px;font-weight:900;margin-bottom:16px;background:linear-gradient(135deg,#ff4d2e,#ff8c42);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:18px;color:var(--muted);max-width:600px;margin:0 auto;line-height:1.8}
+.stats{display:flex;justify-content:center;gap:40px;margin:40px 0;flex-wrap:wrap}
+.stat{text-align:center}
+.stat .num{font-size:32px;font-weight:800;color:var(--mars)}
+.stat .lbl{font-size:13px;color:var(--muted);margin-top:4px}
+.section{padding:40px 0}
+.section h2{font-size:28px;margin-bottom:8px}
+.section .sub{color:var(--muted);margin-bottom:28px;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.card{background:var(--card);border-radius:16px;padding:24px;text-decoration:none;color:var(--text);border:1px solid #22222f;transition:.25s;display:block}
+.card:hover{transform:translateY(-4px);border-color:var(--mars);box-shadow:0 8px 30px rgba(255,77,46,.15)}
+.card .icon{font-size:36px;margin-bottom:12px}
+.card h3{font-size:18px;margin-bottom:8px}
+.card p{font-size:14px;color:var(--muted);line-height:1.6;min-height:44px}
+.card .tag{display:inline-block;margin-top:12px;font-size:12px;color:var(--mars);border:1px solid var(--mars);border-radius:20px;padding:4px 12px}
+.about{background:var(--card);border-radius:16px;padding:32px;margin:40px 0;border:1px solid #22222f}
+.about h2{margin-bottom:16px}
+.about p{color:var(--muted);line-height:2;font-size:15px}
+footer{text-align:center;padding:40px 0;color:var(--muted);font-size:13px;border-top:1px solid #1a1a28;margin-top:40px}
+footer a{color:var(--mars);text-decoration:none}
+@media(max-width:600px){.hero h1{font-size:36px}.stats{gap:24px}}
+</style>
 </head>
 <body>
-	<div class="container">
-		<form class="login-card" id="loginForm" novalidate>
-			<div class="brand">
-				<h1>示例应用</h1>
-				<p class="subtitle">欢迎，请登录继续</p>
-			</div>
+<canvas id="stars"></canvas>
+<div class="wrap">
+<nav>
+<a class="logo" href="/"><span class="dot"></span>火星极客</a>
+<div class="navlinks">
+<a href="#products">产品</a>
+<a href="#knowledge">知识库</a>
+<a href="#tools">工具</a>
+<a href="#about">关于</a>
+</div>
+</nav>
 
-			<div class="field">
-				<label for="email">邮箱或用户名</label>
-				<input id="email" name="email" type="text" autocomplete="username" required>
-				<div class="error" id="emailError" aria-live="polite"></div>
-			</div>
+<div class="hero">
+<h1>火星极客 Mars Geek</h1>
+<p>把硬核知识，做成好玩的东西。<br>编程、数学、AI、游戏——都在这里。</p>
+<div class="stats">
+<div class="stat"><div class="num">9</div><div class="lbl">在线产品</div></div>
+<div class="stat"><div class="num">144</div><div class="lbl">编程语言收录</div></div>
+<div class="stat"><div class="num">102</div><div class="lbl">Excel 函数教程</div></div>
+<div class="stat"><div class="num">1000+</div><div class="lbl">知识条目</div></div>
+</div>
+</div>
 
-			<div class="field">
-				<label for="password">密码</label>
-				<div class="pw-wrap">
-					<input id="password" name="password" type="password" autocomplete="current-password" required minlength="6">
-					<button type="button" class="toggle-pw" aria-label="显示密码">显示</button>
-				</div>
-				<div class="error" id="passwordError" aria-live="polite"></div>
-			</div>
+<div class="section" id="products">
+<h2>🎮 产品</h2>
+<div class="sub">可以直接玩、可以直接用的东西</div>
+<div class="grid">
+<a class="card" href="/mars-geek/">
+<div class="icon">🚀</div><h3>火星极客官网</h3>
+<p>品牌主站：产品矩阵、数据统计、最新动态</p><span class="tag">品牌</span>
+</a>
+<a class="card" href="/super-grand-slam-online/">
+<div class="icon">🀄</div><h3>超级大满贯 Online</h3>
+<p>日本立直麻将网页版：你 vs 三个 AI（松/竹/梅），半庄 8 局</p><span class="tag">游戏</span>
+</a>
+<a class="card" href="/mars-game/">
+<div class="icon">🔴</div><h3>红色星球计划</h3>
+<p>微信小游戏：火星殖民地建造生存，活过 30 个火星日</p><span class="tag">游戏</span>
+</a>
+<a class="card" href="/ai-brain-platform/">
+<div class="icon">🧠</div><h3>AI Brain 协商平台</h3>
+<p>多智能体协商决策平台：聚 5 家 AI 之所长做决策</p><span class="tag">AI</span>
+</a>
+</div>
+</div>
 
-			<div class="actions">
-				<label class="remember">
-					<input type="checkbox" id="remember" name="remember"> 记住我
-				</label>
-				<button type="submit" class="btn primary">登录</button>
-			</div>
+<div class="section" id="knowledge">
+<h2>📚 知识库</h2>
+<div class="sub">系统整理的硬核知识，随查随用</div>
+<div class="grid">
+<a class="card" href="/langs/">
+<div class="icon">💻</div><h3>语言图鉴</h3>
+<p>144 种编程语言：介绍、核心特性、关键字中文解析</p><span class="tag">编程</span>
+</a>
+<a class="card" href="/excel-tutorial/">
+<div class="icon">📊</div><h3>Excel 教程</h3>
+<p>102 个函数、VBA 实战、透视表、Power Query，从入门到精通</p><span class="tag">办公</span>
+</a>
+<a class="card" href="/mathematics-panorama/">
+<div class="icon">🔢</div><h3>数学全景图</h3>
+<p>从小学到前沿的完整数学书：拉马努金专章、千禧难题</p><span class="tag">数学</span>
+</a>
+</div>
+</div>
 
-			<div class="links">
-				<a href="#" id="forgot">忘记密码？</a>
-			</div>
+<div class="section" id="tools">
+<h2>🛠️ 每日工具</h2>
+<div class="sub">每天自动更新的信息流</div>
+<div class="grid">
+<a class="card" href="/ai-daily-digest/">
+<div class="icon">🤖</div><h3>AI 日报</h3>
+<p>开源 AI 排行、GitHub 热榜、提示词库、AI 工具导航，每日 8 点更新</p><span class="tag">日报</span>
+</a>
+<a class="card" href="/asia-news-digest/">
+<div class="icon">📰</div><h3>亚洲新闻速览</h3>
+<p>13 家国际媒体亚洲新闻，中英对照，每日 7 点更新</p><span class="tag">日报</span>
+</a>
+<a class="card" href="/v2ray-confighub/">
+<div class="icon">🌐</div><h3>免费节点 Hub</h3>
+<p>7 个公开订阅源聚合，按日期归档，一键复制，每日 7:30 更新</p><span class="tag">工具</span>
+</a>
+</div>
+</div>
 
-			<div class="notice" id="notice" role="status" aria-live="polite"></div>
+<div class="about" id="about">
+<h2>关于火星极客</h2>
+<p>火星极客（Mars Geek）是一个独立开发品牌，专注于把硬核知识做成好玩的产品。从编程语言图鉴到在线麻将游戏，从 Excel 教程到 AI 日报——我们相信，学习本身就可以是一件酷的事。</p>
+<p style="margin-top:12px">所有项目开源在 <a href="https://github.com/curzydj8" style="color:var(--mars)">GitHub @curzydj8</a>，欢迎 Star 和 PR。</p>
+</div>
 
-			<div style="margin-top: 30px; padding-top: 30px; border-top: 1px solid #e6e9ef; text-align: center;">
-				<p style="font-size: 13px; color: #6b7280; margin-bottom: 15px;">或访问命令学习</p>
-				<div class="command-grid">
-	                    <a href="dos-commands.html" class="card-link card-dos">
-						<div style="font-size: 14px;">DOS命令</div>
-						<div style="font-size: 11px; opacity: 0.9;">查看教程</div>
-						</a>
-						<a href="linux-commands.html" class="card-link card-linux">
-						<div style="font-size: 14px;">LINUX命令</div>
-						<div style="font-size: 11px; opacity: 0.9;">查看教程</div>
-						</a>
-						<a href="powershell-commands.html" class="card-link card-ps">
-						<div style="font-size: 14px;">POWERSHELL命令</div>
-						<div style="font-size: 11px; opacity: 0.9;">查看教程</div>
-					</a>
-				</div>
-			</div>
-		</form>
-	</div>
+<footer>
+<p>© 2026 火星极客 Mars Geek · 由 <a href="https://github.com/curzydj8">curzydj8</a> 用 ❤️ 构建</p>
+<p style="margin-top:8px">本站托管于 GitHub Pages</p>
+</footer>
+</div>
 
-	<script src="script.min.js?v=20260121" defer></script>
+<script>
+// 星空背景
+const c=document.getElementById('stars'),x=c.getContext('2d');
+function rs(){c.width=innerWidth;c.height=innerHeight}
+rs();addEventListener('resize',rs);
+const stars=Array.from({length:150},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.5,s:Math.random()*.5+.1}));
+(function anim(){x.clearRect(0,0,c.width,c.height);x.fillStyle='#fff';
+stars.forEach(s=>{x.globalAlpha=Math.abs(Math.sin(Date.now()*.001*s.s));x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fill();s.y+=s.s;if(s.y>c.height)s.y=0});
+x.globalAlpha=1;requestAnimationFrame(anim)})();
+// 平滑滚动
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'})}));
+</script>
 </body>
 </html>
